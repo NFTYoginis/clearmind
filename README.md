@@ -110,7 +110,7 @@ The ~17k-token system prompt is byte-stable across all users and turns, so it's 
 
 ClearMind is a **thinking companion — not therapy and not a crisis line.** Surfacing the real problem can land heavier than the person arrived, so the runtime watches for acute distress on every turn and, when it sees it, stops the method and hands off warmly to real help:
 
-- **[Find A Helpline](https://findahelpline.com)** — free, confidential helplines in 175+ countries (ThroughLine).
+- **[Find A Helpline](https://findahelpline.com)** — free, confidential helplines in 130+ countries (ThroughLine).
 - **[IASP — Crisis Centres & Helplines](https://www.iasp.info/crisis-centres-helplines/)** — global directory by country.
 - "If you're in immediate danger, call your local emergency number."
 

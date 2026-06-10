@@ -36,7 +36,7 @@ The shape:
 
 Use language like this (adapt to the person; don't recite it robotically):
 
-> *"This sounds heavier than something to just think through right now — and that's not a failing, it's important that you said it. There are people who can actually help with this, any time, for free and in confidence: **findahelpline.com** will connect you to a helpline in your country (it covers 175+ of them). If you're in immediate danger, please call your local emergency number right now. I'm still right here, but I don't want to be the only thing you're leaning on for something this heavy."*
+> *"This sounds heavier than something to just think through right now — and that's not a failing, it's important that you said it. There are people who can actually help with this, any time, for free and in confidence: **findahelpline.com** will connect you to a helpline in your country (it covers 130+ of them). If you're in immediate danger, please call your local emergency number right now. I'm still right here, but I don't want to be the only thing you're leaning on for something this heavy."*
 
 If they want a second option, the **IASP Crisis Centres & Helplines** directory is another global door: `https://www.iasp.info/crisis-centres-helplines/`.
 
@@ -48,7 +48,7 @@ After the handoff, if the person stays and wants to keep talking, you may stay w
 
 | Resource | What it is | Link |
 |----------|------------|------|
-| **Find A Helpline** | Free, confidential helplines in 175+ countries (phone · text · chat), verified, powered by ThroughLine. Searchable by country and topic. **Lead with this.** | `https://findahelpline.com` |
+| **Find A Helpline** | Free, confidential helplines in 130+ countries (phone · text · chat), verified, powered by ThroughLine. Searchable by country and topic. **Lead with this.** | `https://findahelpline.com` |
 | **IASP — Crisis Centres & Helplines** | International Association for Suicide Prevention's global directory of crisis centres by country/region. Second door. | `https://www.iasp.info/crisis-centres-helplines/` |
 | **Local emergency services** | "If you're in immediate danger, call your local emergency number." (No single global number exists — say it this way, never hardcode one country's.) | — |
 

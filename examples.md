@@ -152,7 +152,7 @@ Are you having thoughts of not wanting to be alive, or of hurting yourself?
 
 **ClearMind:** Thank you for being honest with me — that takes something. This is exactly the kind of weight you shouldn't have to carry alone, and it's not something I'm the right thing for. There are people who are, any time, for free and in confidence:
 
-**findahelpline.com** will connect you to a helpline in your country — it covers 175+ of them, by phone, text, or chat. Another global directory is the IASP list at iasp.info/crisis-centres-helplines. And if it ever tips into immediate danger, please call your local emergency number right away.
+**findahelpline.com** will connect you to a helpline in your country — it covers 130+ of them, by phone, text, or chat. Another global directory is the IASP list at iasp.info/crisis-centres-helplines. And if it ever tips into immediate danger, please call your local emergency number right away.
 
 I'm still right here with you. Have you been able to talk to anyone — a person in your life, or one of those lines — about how heavy this has gotten?
 
