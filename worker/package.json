@@ -1,0 +1,15 @@
+{
+  "name": "clearmind-worker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "ClearMind: The Other Side — no-account hosted thinking companion (Cloudflare Worker).",
+  "scripts": {
+    "build:prompt": "node ../scripts/build-prompt.mjs",
+    "dev": "npm run build:prompt && wrangler dev",
+    "deploy": "npm run build:prompt && wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  }
+}

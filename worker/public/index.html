@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ClearMind — find what's really going on</title>
+<meta name="description" content="A calmer way through. Talk through what's weighing on you and leave with one clear next step. No account, nothing saved." />
+<meta name="robots" content="noindex" />
+<style>
+  :root{
+    --mist:#e9edf1; --dawn:#f6f3ec; --ink:#2b3440; --muted:#6b7682;
+    --sage:#5f8a7d; --sage-deep:#4d7468; --user:#e4e9ee; --line:#dfe3e8;
+    --paper:#fbf9f4; --paper-line:#e6e0d4;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; color:var(--ink);
+    font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+    background:linear-gradient(180deg,var(--mist) 0%,var(--dawn) 78%);
+    background-attachment:fixed;
+  }
+  .app{display:flex; flex-direction:column; min-height:100%; max-width:720px; margin:0 auto;}
+  header{padding:22px 20px 10px; text-align:center;}
+  .wordmark{font-size:19px; font-weight:600; letter-spacing:.2px; color:var(--ink);}
+  .wordmark .dot{color:var(--sage);}
+  .tagline{font-size:13.5px; color:var(--muted); margin-top:2px;}
+  .stream{flex:1 1 auto; padding:14px 20px 8px; display:flex; flex-direction:column; gap:18px;}
+  .msg{max-width:100%; white-space:pre-wrap; word-wrap:break-word;}
+  .msg.cm{color:var(--ink);}
+  .msg.cm .who{display:block; font-size:12px; letter-spacing:.4px; text-transform:uppercase; color:var(--sage); margin-bottom:4px;}
+  .msg.user{align-self:flex-end; background:var(--user); color:var(--ink);
+    padding:11px 15px; border-radius:16px 16px 4px 16px; max-width:86%;}
+  .dots{display:inline-flex; gap:5px; padding:6px 2px;}
+  .dots span{width:7px; height:7px; border-radius:50%; background:var(--sage); opacity:.4; animation:pulse 1.2s infinite ease-in-out;}
+  .dots span:nth-child(2){animation-delay:.2s} .dots span:nth-child(3){animation-delay:.4s}
+  @keyframes pulse{0%,100%{opacity:.3; transform:translateY(0)}50%{opacity:.9; transform:translateY(-3px)}}
+  @media (prefers-reduced-motion: reduce){ .dots span{animation:none; opacity:.6} }
+
+  /* the crossing card — the artifact */
+  .crossing-card{
+    background:var(--paper); border:1px solid var(--paper-line); border-left:4px solid var(--sage);
+    border-radius:10px; padding:20px 22px; margin:2px 0; box-shadow:0 1px 3px rgba(43,52,64,.06);
+  }
+  .crossing-card .eyebrow{font-size:12px; letter-spacing:.6px; text-transform:uppercase; color:var(--sage); font-weight:600; margin-bottom:10px;}
+  .crossing-card .sec-h{font-size:12.5px; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); font-weight:700; margin:14px 0 3px;}
+  .crossing-card .sec-h:first-of-type{margin-top:0;}
+  .crossing-card .sec-b{color:var(--ink);}
+  .crossing-actions{display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;}
+  .crossing-actions button{
+    font:inherit; font-size:14px; padding:8px 14px; border-radius:8px; cursor:pointer;
+    border:1px solid var(--paper-line); background:#fff; color:var(--ink);
+  }
+  .crossing-actions button:hover{border-color:var(--sage); color:var(--sage-deep);}
+
+  /* composer */
+  .composer{position:sticky; bottom:0; padding:12px 16px 8px;
+    background:linear-gradient(180deg,rgba(246,243,236,0) 0%,var(--dawn) 32%);}
+  .composer-inner{display:flex; gap:9px; align-items:flex-end;
+    background:#fff; border:1px solid var(--line); border-radius:16px; padding:8px 8px 8px 14px;
+    box-shadow:0 1px 4px rgba(43,52,64,.05);}
+  textarea{flex:1; border:0; outline:0; resize:none; font:inherit; color:var(--ink);
+    max-height:160px; line-height:1.5; background:transparent; padding:5px 0;}
+  textarea::placeholder{color:#9aa4ad;}
+  .send{flex:0 0 auto; width:40px; height:40px; border:0; border-radius:11px; cursor:pointer;
+    background:var(--sage); color:#fff; font-size:18px; display:flex; align-items:center; justify-content:center;}
+  .send:hover{background:var(--sage-deep);}
+  .send:disabled{opacity:.45; cursor:default;}
+  .safety{text-align:center; font-size:12.5px; color:var(--muted); padding:4px 16px 16px;}
+  .safety a{color:var(--sage-deep); text-decoration:none; border-bottom:1px solid rgba(95,138,125,.35);}
+  .safety a:hover{color:var(--sage);}
+
+  @media print{
+    body *{visibility:hidden;}
+    .crossing-card, .crossing-card *{visibility:visible;}
+    .crossing-actions{display:none;}
+    .crossing-card{position:absolute; left:0; top:0; width:100%; border:0; box-shadow:none;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="wordmark">ClearMind<span class="dot">.</span></div>
+    <div class="tagline">Find what's really going on.</div>
+  </header>
+
+  <main class="stream" id="stream" role="log" aria-live="polite" aria-label="Conversation"></main>
+
+  <div class="composer">
+    <div class="composer-inner">
+      <textarea id="input" rows="1" placeholder="What's weighing on you?" aria-label="What's weighing on you?"></textarea>
+      <button class="send" id="send" aria-label="Send">↑</button>
+    </div>
+  </div>
+  <div class="safety">
+    Heavier than something to think through? Free, confidential help, any time —
+    <a href="https://findahelpline.com" target="_blank" rel="noopener">findahelpline.com</a>
+  </div>
+</div>
+
+<script>
+(() => {
+  const stream = document.getElementById('stream');
+  const input = document.getElementById('input');
+  const send = document.getElementById('send');
+
+  // The browser holds the transcript. Nothing is stored server-side.
+  const messages = [];
+  let busy = false;
+
+  const WELCOME =
+    "Hi — I'm here to help you find what's really going on with something that's weighing on you, " +
+    "and to leave with one clear next step. No account, nothing saved. Take your time.\n\nWhat's on your mind?";
+
+  function el(tag, cls, text){ const e=document.createElement(tag); if(cls)e.className=cls; if(text!=null)e.textContent=text; return e; }
+  function scroll(){ stream.scrollTop = stream.scrollHeight; window.scrollTo(0, document.body.scrollHeight); }
+
+  function addUser(text){
+    const m = el('div','msg user', text); stream.appendChild(m); scroll();
+  }
+  function addCM(text){
+    const m = el('div','msg cm');
+    m.appendChild(el('span','who','ClearMind'));
+    const body = el('span','body', text||''); m.appendChild(body);
+    stream.appendChild(m); scroll();
+    return body;
+  }
+  function addDots(){
+    const m = el('div','msg cm');
+    m.appendChild(el('span','who','ClearMind'));
+    const d = el('div','dots'); d.appendChild(el('span')); d.appendChild(el('span')); d.appendChild(el('span'));
+    m.appendChild(d); stream.appendChild(m); scroll();
+    return m;
+  }
+
+  // strip the crossing fence (and anything after) from the live-streaming view
+  function visiblePart(text){
+    const i = text.indexOf('```crossing');
+    return i === -1 ? text : text.slice(0, i).trimEnd();
+  }
+
+  function renderCrossingCard(doc){
+    const card = el('div','crossing-card');
+    card.appendChild(el('div','eyebrow','Your crossing — yours to keep'));
+    const HEADERS = ['WHAT I NOW UNDERSTAND','MY NEXT STEP','WHAT MIGHT STOP ME','HOW I WILL RESPOND'];
+    let buf = [];
+    const flush = () => { if(buf.length){ card.appendChild(Object.assign(el('div','sec-b'), {textContent: buf.join('\n')})); buf=[]; } };
+    for(const line of doc.split('\n')){
+      if(HEADERS.includes(line.trim())){ flush(); card.appendChild(el('div','sec-h', line.trim())); }
+      else buf.push(line);
+    }
+    flush();
+    const actions = el('div','crossing-actions');
+    const bSave = el('button',null,'Save'); bSave.onclick = () => {
+      const blob = new Blob([doc+'\n'], {type:'text/plain'});
+      const a = el('a'); a.href = URL.createObjectURL(blob); a.download = 'my-crossing.txt'; a.click(); URL.revokeObjectURL(a.href);
+    };
+    const bPrint = el('button',null,'Print'); bPrint.onclick = () => window.print();
+    const bCopy = el('button',null,'Copy'); bCopy.onclick = async () => { try{ await navigator.clipboard.writeText(doc); bCopy.textContent='Copied'; setTimeout(()=>bCopy.textContent='Copy',1400);}catch(_){} };
+    actions.appendChild(bSave); actions.appendChild(bPrint); actions.appendChild(bCopy);
+    card.appendChild(actions);
+    stream.appendChild(card); scroll();
+  }
+
+  async function turn(){
+    if(busy) return;
+    const text = input.value.trim();
+    if(!text) return;
+    busy = true; send.disabled = true; input.value=''; input.style.height='auto';
+    addUser(text);
+    messages.push({role:'user', content:text});
+
+    const dotsEl = addDots();
+    let body = null, full = '';
+
+    try{
+      const res = await fetch('/api/chat', {
+        method:'POST', headers:{'content-type':'application/json'},
+        body: JSON.stringify({ messages })
+      });
+      const ctype = res.headers.get('content-type') || '';
+      if(!ctype.includes('text/event-stream')){
+        const data = await res.json().catch(()=>({message:"Something went wrong. Try again in a moment."}));
+        dotsEl.remove(); addCM(data.message || "Something went wrong. Try again in a moment.");
+        busy=false; send.disabled=false; return;
+      }
+      const reader = res.body.getReader();
+      const dec = new TextDecoder(); let buf='';
+      while(true){
+        const {done, value} = await reader.read();
+        if(done) break;
+        buf += dec.decode(value, {stream:true});
+        const lines = buf.split('\n'); buf = lines.pop();
+        for(const line of lines){
+          if(!line.startsWith('data:')) continue;
+          const p = line.slice(5).trim();
+          if(!p || p==='[DONE]') continue;
+          let evt; try{ evt=JSON.parse(p); }catch{ continue; }
+          if(evt.type==='content_block_delta' && evt.delta?.type==='text_delta'){
+            if(!body){ dotsEl.remove(); body = addCM(''); }
+            full += evt.delta.text;
+            body.textContent = visiblePart(full);
+            scroll();
+          }
+        }
+      }
+    }catch(_){
+      dotsEl.remove(); addCM("I lost the thread for a second there — try once more.");
+      busy=false; send.disabled=false; return;
+    }
+
+    if(!body){ dotsEl.remove(); body = addCM(visiblePart(full) || "…"); }
+
+    // finalize: lift out the crossing block, render the card, keep any warm close
+    const m = full.match(/```crossing\s*\n([\s\S]*?)```/);
+    if(m){
+      body.textContent = full.slice(0, m.index).trimEnd();
+      renderCrossingCard(m[1].trim());
+      const after = full.slice(m.index + m[0].length).trim();
+      if(after) addCM(after);
+    } else {
+      body.textContent = full;
+    }
+    messages.push({role:'assistant', content:full});
+    busy=false; send.disabled=false; input.focus(); scroll();
+  }
+
+  // input behavior
+  input.addEventListener('input', () => { input.style.height='auto'; input.style.height=Math.min(input.scrollHeight,160)+'px'; });
+  input.addEventListener('keydown', (e) => { if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); turn(); } });
+  send.addEventListener('click', turn);
+
+  // open with ClearMind's welcome (no API call)
+  addCM(WELCOME);
+  input.focus();
+})();
+</script>
+</body>
+</html>

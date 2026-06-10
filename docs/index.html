@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ClearMind: The Other Side — find what's really going on</title>
+<meta name="description" content="A calmer way through. Talk through what's weighing on you and cross from the apparent problem to the real one — leaving with one clear next step, written down. No account. Nothing saved." />
+
+<!-- Open Graph / social. Image is delivered by the design team post-build; until then social shares fall back to text. -->
+<!-- TODO: operator — once the Pages URL is known, make og:image / og:url absolute (https://<org>.github.io/clearmind/og-image.png). -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="ClearMind: The Other Side" />
+<meta property="og:description" content="Find what's really going on. A calmer way through — leave with one clear next step, written down." />
+<meta property="og:image" content="og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<style>
+  :root{
+    --mist:#e9edf1; --dawn:#f6f3ec; --ink:#2b3440; --muted:#65707b;
+    --sage:#5f8a7d; --sage-deep:#4d7468; --line:#dfe3e8;
+    --paper:#fbf9f4; --paper-line:#e6e0d4; --surface:#ffffff;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; color:var(--ink);
+    font:17px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+    background:linear-gradient(180deg,var(--mist) 0%,var(--dawn) 60%); background-attachment:fixed;
+  }
+  .wrap{max-width:760px; margin:0 auto; padding:0 22px;}
+  a{color:var(--sage-deep);}
+
+  /* nav */
+  nav{position:sticky; top:0; z-index:10; backdrop-filter:saturate(1.2) blur(8px);
+    background:rgba(233,237,241,.78); border-bottom:1px solid var(--line);}
+  .nav-in{max-width:760px; margin:0 auto; padding:12px 22px; display:flex; align-items:center; justify-content:space-between;}
+  .brand{font-weight:600; letter-spacing:.2px;}
+  .brand .dot{color:var(--sage);}
+  .nav-links{display:flex; gap:18px; align-items:center; font-size:14.5px;}
+  .nav-links a{color:var(--muted); text-decoration:none;}
+  .nav-links a:hover{color:var(--ink);}
+  .cta{display:inline-block; background:var(--sage); color:#fff !important; text-decoration:none;
+    padding:8px 16px; border-radius:10px; font-size:14.5px; font-weight:500;}
+  .cta:hover{background:var(--sage-deep);}
+  .nav-links .cta{color:#fff !important;}
+
+  /* hero */
+  header.hero{padding:64px 0 30px; text-align:center;}
+  .eyebrow{font-size:13.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--sage); font-weight:600;}
+  h1{font-size:42px; line-height:1.12; margin:14px 0 8px; letter-spacing:-.5px;}
+  .brandline{font-size:18px; color:var(--muted); margin:0 0 26px;}
+  .hero-ctas{display:flex; gap:12px; justify-content:center; flex-wrap:wrap;}
+  .ghost{display:inline-block; padding:10px 18px; border-radius:10px; text-decoration:none;
+    border:1px solid var(--line); background:var(--surface); color:var(--ink); font-size:15px;}
+  .ghost:hover{border-color:var(--sage);}
+  .cta.big{padding:11px 22px; font-size:15.5px;}
+
+  /* sections */
+  section{padding:34px 0;}
+  h2{font-size:25px; letter-spacing:-.3px; margin:0 0 6px;}
+  .lede{color:var(--muted); margin:0 0 22px;}
+  .beats{display:grid; grid-template-columns:1fr; gap:14px;}
+  @media(min-width:620px){ .beats{grid-template-columns:repeat(3,1fr);} }
+  .beat{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:18px 18px;}
+  .beat .n{font-size:13px; letter-spacing:.5px; text-transform:uppercase; color:var(--sage); font-weight:600;}
+  .beat h3{margin:6px 0 6px; font-size:18px;}
+  .beat p{margin:0; color:var(--muted); font-size:15px; line-height:1.6;}
+
+  /* sample crossing card */
+  .card{background:var(--paper); border:1px solid var(--paper-line); border-left:4px solid var(--sage);
+    border-radius:12px; padding:22px 24px; box-shadow:0 1px 3px rgba(43,52,64,.06);}
+  .card .eyebrow2{font-size:12px; letter-spacing:.6px; text-transform:uppercase; color:var(--sage); font-weight:600;}
+  .card .sec-h{font-size:12.5px; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); font-weight:700; margin:15px 0 2px;}
+  .card .sec-h:first-of-type{margin-top:10px;}
+  .card .sec-b{color:var(--ink); font-size:15.5px;}
+  .sample-note{font-size:13.5px; color:var(--muted); margin-top:10px; font-style:italic;}
+
+  /* boundary */
+  .boundary{background:#eef3f1; border:1px solid #d6e2dd; border-radius:12px; padding:20px 22px;}
+  .boundary h2{font-size:20px;}
+  .boundary p{margin:8px 0 0; color:#3c4a45; font-size:15.5px;}
+
+  /* proof placeholder */
+  .proof{background:var(--surface); border:1px dashed var(--line); border-radius:12px; padding:22px; text-align:center; color:var(--muted); font-size:15px;}
+
+  /* faq */
+  details{border-bottom:1px solid var(--line); padding:14px 2px;}
+  details summary{cursor:pointer; font-weight:600; list-style:none;}
+  details summary::-webkit-details-marker{display:none}
+  details summary::before{content:"+ "; color:var(--sage);}
+  details[open] summary::before{content:"– ";}
+  details p{margin:10px 0 2px; color:var(--muted); font-size:15.5px;}
+
+  /* begin */
+  .begin{text-align:center; background:var(--paper); border:1px solid var(--paper-line); border-radius:14px; padding:34px 22px;}
+  .begin h2{margin-bottom:6px;}
+  .begin p{color:var(--muted); margin:0 auto 20px; max-width:46ch;}
+
+  footer{border-top:1px solid var(--line); margin-top:30px; padding:26px 0 50px; color:var(--muted); font-size:13.5px; text-align:center;}
+  footer a{color:var(--muted);}
+  footer .by{color:var(--ink); font-weight:500;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <span class="brand">ClearMind<span class="dot">.</span></span>
+    <div class="nav-links">
+      <a href="#how">How it feels</a>
+      <a href="#leave">What you leave with</a>
+      <!-- TODO: operator — set href to the deployed Worker URL (e.g. https://clearmind.<subdomain>.workers.dev) -->
+      <a class="cta" href="https://clearmind.example.workers.dev">Begin</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">ClearMind: The Other Side</div>
+    <h1>Find what's really going on.</h1>
+    <p class="brandline">A calmer way through.</p>
+    <div class="hero-ctas">
+      <!-- TODO: operator — set href to the deployed Worker URL -->
+      <a class="cta big" href="https://clearmind.example.workers.dev">Start — it's free, no account</a>
+      <a class="ghost" href="#leave">See what you leave with</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="how">
+    <h2>When something's weighing on you, the hard part isn't deciding.</h2>
+    <p class="lede">It's that you can't quite see what you're deciding. ClearMind sits with you until the fog clears — and the thing under the thing comes into view.</p>
+    <div class="beats">
+      <div class="beat"><span class="n">First</span><h3>You feel heard</h3><p>No forms, no menu, no advice. Just a careful listener helping you put down what's actually heavy — in your own words.</p></div>
+      <div class="beat"><span class="n">Then</span><h3>You get clearer</h3><p>The apparent problem gives way to the real one. Most people are surprised by what was actually underneath.</p></div>
+      <div class="beat"><span class="n">Then</span><h3>You start moving</h3><p>You leave with one concrete next step — small, real, yours — and a plan for the thing most likely to stop you.</p></div>
+    </div>
+  </section>
+
+  <section id="leave">
+    <h2>You don't leave with an answer. You leave with this.</h2>
+    <p class="lede">ClearMind doesn't tell you what to do — it helps you see what you're actually choosing, and turns that recognition into something you can hold. Every session ends with a crossing document.</p>
+    <div class="card">
+      <div class="eyebrow2">Your crossing — yours to keep</div>
+      <div class="sec-h">What I now understand</div>
+      <div class="sec-b">The real problem was never stay-or-go — it's whether I'll back myself instead of waiting to be chosen.</div>
+      <div class="sec-h">My next step</div>
+      <div class="sec-b">Within 24 hours I will book a 20-minute talk with my manager this week.</div>
+      <div class="sec-h">What might stop me</div>
+      <div class="sec-b">I'll tell myself I need to "prepare more" first.</div>
+      <div class="sec-h">How I will respond</div>
+      <div class="sec-b">Book it unprepared. Preparing can happen after it's real.</div>
+    </div>
+    <p class="sample-note">An example of what a finished session produces — not a real person's. Yours will be in your words, savable and printable.</p>
+  </section>
+
+  <section>
+    <div class="boundary">
+      <h2>A thinking companion — not therapy, not a crisis line.</h2>
+      <p>ClearMind helps you think through something that's weighing on you. It isn't medical or clinical care, and it can't hold a crisis. If what surfaces is heavier than something to think through, that matters more than anything here — free, confidential help is available any time at <a href="https://findahelpline.com" target="_blank" rel="noopener">findahelpline.com</a> (helplines in 175+ countries). In immediate danger, call your local emergency number.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>What people are finding</h2>
+    <!-- TODO: operator — add real testimonials / reflections only after a cold test. No invented proof. -->
+    <div class="proof">Reflections from early sessions will appear here once they've been gathered. We don't manufacture proof.</div>
+  </section>
+
+  <section class="begin">
+    <h2>Begin when you're ready.</h2>
+    <p>No sign-up. Nothing is saved. Just say what's on your mind, and take it from there.</p>
+    <!-- TODO: operator — set href to the deployed Worker URL -->
+    <a class="cta big" href="https://clearmind.example.workers.dev">Start now</a>
+  </section>
+
+  <section>
+    <h2>Questions</h2>
+    <details><summary>Will it tell me what to do?</summary><p>No — and that's the point. ClearMind doesn't make decisions for you. It helps you understand what decision you're actually making, so the move you land on is genuinely yours.</p></details>
+    <details><summary>Do you store my conversation?</summary><p>No account, and the conversation isn't saved on our side. The only thing you keep is the crossing document — and only if you choose to save or print it.</p></details>
+    <details><summary>Is this therapy?</summary><p>No. It's a thinking companion for something specific that's weighing on you. It isn't a substitute for therapy or a crisis line — and if something heavier surfaces, it will point you to real help rather than try to hold it.</p></details>
+    <details><summary>How long does it take?</summary><p>As long as you need — usually a single sitting. Some people cross in a few minutes; others sit longer in the fog. There's no timer and no right pace.</p></details>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>ClearMind: The Other Side</strong> — a state-change tool that takes you from fog to a written commitment. Part of the Quiet&nbsp;AI family.</p>
+    <p>Open source · MIT licensed · <a href="#">view the repository</a></p>
+    <!-- TODO: operator — set the repo link above once the GitHub repo exists. -->
+    <p><span class="by">By Gabe — Your AI Specialist.</span></p>
+  </div>
+</footer>
+
+</body>
+</html>
