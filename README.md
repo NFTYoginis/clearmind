@@ -12,16 +12,16 @@ The whole design fits in seven words: **lead with the feeling, deliver the artif
 
 ## How it works (the short version)
 
-One seamless conversation moves the person across four movements without ever showing the seams:
+One warm, **openly guided** conversation moves the person across four movements:
 
-| Movement | What the person feels | What's happening backstage *(never named to them)* |
+| Movement | What the person feels | What's happening backstage *(the method's name is never spoken)* |
 |----------|----------------------|----------------------------------------------------|
-| **Fog** | Heard | Coaching-style extraction — getting under the apparent problem |
-| **Orientation** | Settled, knows what they want | A desires/gratitude/loves priming that settles the nervous system and surfaces wants |
-| **Formation** | Sees the real fork | A decision-structuring method (outcomes → options → consequences → evaluate → mitigate → resolve) |
+| **Fog** | Heard, and told what we're doing | Coaching-style extraction — getting under the apparent problem |
+| **Orientation** | Settled; given examples to find what they want | A desires/gratitude/loves priming that settles the nervous system and surfaces wants |
+| **Formation** | Sees the real fork, with options offered to push against | A decision-structuring method (outcomes → options → consequences → evaluate → mitigate → resolve) |
 | **Crossing** | Moving, holding a commitment | Recognition converted into a written next step — the crossing document |
 
-The mechanics are **always invisible.** No acronyms, no stage names, no "choose a tool" menu — the person experiences a single warm, attentive presence. The runtime watches **five signals** every turn (`reference/signals.md`) and adapts to where *this* person actually is: one person sits twenty minutes in the fog; another arrives already knowing what they want and goes straight to the fork. **Signals, not stages.**
+ClearMind **guides openly and keeps only the jargon backstage.** It tells the person, in plain words, what it'd like to do together, it **goes first with examples** so they're never staring at a blank page, and it explains its "why" *modestly* — *getting clear and naming one real step often lets the fog loosen* (offered as something that may follow, never promised). What stays hidden is the machinery's *names*: no acronym, no stage label, no "exercise," no "choose a tool" menu. **Open about the collaboration; quiet about the names.** The runtime watches **five signals** every turn (`reference/signals.md`) and adapts to where *this* person actually is: one person sits twenty minutes in the fog; another arrives already knowing what they want and goes straight to the fork. **Signals, not stages.**
 
 Every completed session ends with a crossing document. If acute distress surfaces, the **crisis off-ramp** overrides everything and points to real help (`reference/crisis-offramp.md`).
 
@@ -136,7 +136,7 @@ These are credited here and in `reference/attribution.md`. They are **never name
 Both build-complete gates were run against the real API (Sonnet 4.6) and **passed**:
 
 - ✅ **Fog → crossing** produces a clean, savable crossing document, drawn from the person's own words.
-- ✅ **Invisible mechanics** — a monitor scanned both runs; no framework name, acronym, or stage label ever reached the user.
+- ✅ **Open guidance, jargon backstage** — ClearMind openly tells the person what it'd like to do, goes first with examples, and explains its "why" modestly; a monitor confirms no framework name, acronym, stage label, or the word "exercise" ever reaches the user, and no outcome is promised.
 - ✅ **Adaptive path** — the runtime reads signals and adapts (the "already knows what they want" path is exercised in `examples.md`).
 - ✅ **Crisis off-ramp fires** on acute distress, points to real help, and produces no artifact / runs no framework.
 - ✅ **Key never client-exposed** — verified via local `wrangler dev` (served HTML contains no key; the key loads only as a server-side secret).
