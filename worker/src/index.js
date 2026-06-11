@@ -113,6 +113,10 @@ async function handleChat(request, env) {
         max_tokens: MAX_TOKENS,
         thinking: { type: 'adaptive' },
         output_config: { effort: 'medium' },
+        // Belt-and-suspenders for the "never write the person's words" prompt guard:
+        // hard-stop if the model ever begins a fabricated turn. Both the plain and the
+        // markdown-bold label forms (the observed leak was "**Person:**").
+        stop_sequences: ['\nPerson:', '\n**Person:**'],
         // Stable, byte-identical prefix across all users/turns → cached (~0.1x on reads).
         system: [{ type: 'text', text: SYSTEM_PROMPT, cache_control: { type: 'ephemeral' } }],
         messages,
