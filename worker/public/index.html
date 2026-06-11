@@ -8,73 +8,109 @@
 <meta name="robots" content="noindex" />
 <style>
   :root{
-    --mist:#e9edf1; --dawn:#f6f3ec; --ink:#2b3440; --muted:#6b7682;
-    --sage:#5f8a7d; --sage-deep:#4d7468; --user:#e4e9ee; --line:#dfe3e8;
-    --paper:#fbf9f4; --paper-line:#e6e0d4;
+    --warm-top:#efe9e0; --warm-bot:#f8f1e6; --ink:#2b3440; --muted:#6f6a61;
+    --sage:#5f8a7d; --sage-deep:#4d7468; --you:#5c6168; --line:#e6e1d7;
+    --paper:#fdfaf4; --paper-line:#ece4d6;
+    --serif:"New York",ui-serif,Georgia,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
   }
-  *{box-sizing:border-box}
-  html,body{height:100%}
+  *{margin:0; padding:0; box-sizing:border-box;}
+  html,body{height:100%;}
   body{
-    margin:0; color:var(--ink);
-    font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
-    background:linear-gradient(180deg,var(--mist) 0%,var(--dawn) 78%);
-    background-attachment:fixed;
+    font-family:var(--sans); color:var(--ink);
+    background:
+      radial-gradient(120% 82% at 50% 118%, rgba(248,238,223,.9) 0%, rgba(248,238,223,0) 56%),
+      linear-gradient(176deg,#efe9e0 0%,#f2ece2 44%,#f6efe4 73%,#f8f1e6 100%);
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
   }
-  .app{display:flex; flex-direction:column; min-height:100%; max-width:720px; margin:0 auto;}
-  header{padding:22px 20px 10px; text-align:center;}
-  .wordmark{font-size:19px; font-weight:600; letter-spacing:.2px; color:var(--ink);}
-  .wordmark .dot{color:var(--sage);}
-  .tagline{font-size:13.5px; color:var(--muted); margin-top:2px;}
-  .stream{flex:1 1 auto; padding:14px 20px 8px; display:flex; flex-direction:column; gap:18px;}
-  .msg{max-width:100%; white-space:pre-wrap; word-wrap:break-word;}
-  .msg.cm{color:var(--ink);}
-  .msg.cm .who{display:block; font-size:12px; letter-spacing:.4px; text-transform:uppercase; color:var(--sage); margin-bottom:4px;}
-  .msg.user{align-self:flex-end; background:var(--user); color:var(--ink);
-    padding:11px 15px; border-radius:16px 16px 4px 16px; max-width:86%;}
-  .dots{display:inline-flex; gap:5px; padding:6px 2px;}
-  .dots span{width:7px; height:7px; border-radius:50%; background:var(--sage); opacity:.4; animation:pulse 1.2s infinite ease-in-out;}
-  .dots span:nth-child(2){animation-delay:.2s} .dots span:nth-child(3){animation-delay:.4s}
-  @keyframes pulse{0%,100%{opacity:.3; transform:translateY(0)}50%{opacity:.9; transform:translateY(-3px)}}
-  @media (prefers-reduced-motion: reduce){ .dots span{animation:none; opacity:.6} }
+  .vh{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;}
+  :focus-visible{ outline:2px solid var(--sage); outline-offset:3px; border-radius:4px; }
 
-  /* the crossing card — the artifact */
-  .crossing-card{
-    background:var(--paper); border:1px solid var(--paper-line); border-left:4px solid var(--sage);
-    border-radius:10px; padding:20px 22px; margin:2px 0; box-shadow:0 1px 3px rgba(43,52,64,.06);
+  .app{max-width:660px; margin:0 auto; min-height:100%; display:flex; flex-direction:column; padding:0 32px;}
+
+  header{text-align:center; padding:36px 0 34px;}
+  .wordmark{font-size:18px; font-weight:600; letter-spacing:.2px; color:var(--ink);}
+  .wordmark .dot{color:var(--sage);}
+  .tagline{font-size:13px; color:var(--muted); margin-top:4px; letter-spacing:.2px;}
+
+  /* the exchange — one reading column, no labels, no bubbles */
+  .thread{flex:1; display:flex; flex-direction:column; gap:33px; padding-bottom:18px;}
+
+  @keyframes rise{ from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none} }
+
+  /* the companion writes — warm serif, hugs the LEFT */
+  .cm{align-self:flex-start; max-width:80%;
+    font-family:var(--serif); font-size:22px; line-height:1.62; color:var(--ink); letter-spacing:.1px;
+    animation:rise .8s cubic-bezier(.22,.61,.36,1) both;}
+  .cm p{white-space:pre-wrap; word-wrap:break-word;}
+  .cm p+p{margin-top:.85em;}
+
+  /* the person speaks — quiet sans, cascades to the RIGHT, sage edge (never a pill) */
+  .you{align-self:flex-end; max-width:74%; text-align:right; padding-right:18px;
+    border-right:2px solid var(--sage); font-size:16.5px; line-height:1.55; color:var(--you);
+    white-space:pre-wrap; word-wrap:break-word;
+    animation:rise .8s cubic-bezier(.22,.61,.36,1) both;}
+
+  /* a single calm breath while the companion gathers a reply */
+  .thinking{align-self:flex-start; display:flex; align-items:center; min-height:26px;
+    animation:rise .8s cubic-bezier(.22,.61,.36,1) both;}
+  .thinking .pulse{width:11px; height:11px; border-radius:50%; background:var(--sage);
+    box-shadow:0 0 0 0 rgba(95,138,125,.18); animation:breathe 3.6s ease-in-out infinite;}
+  @keyframes breathe{
+    0%,100%{opacity:.34; transform:scale(.82); box-shadow:0 0 0 0 rgba(95,138,125,.16)}
+    50%{opacity:.74; transform:scale(1.1); box-shadow:0 0 0 9px rgba(95,138,125,0)}
   }
-  .crossing-card .eyebrow{font-size:12px; letter-spacing:.6px; text-transform:uppercase; color:var(--sage); font-weight:600; margin-bottom:10px;}
-  .crossing-card .sec-h{font-size:12.5px; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); font-weight:700; margin:14px 0 3px;}
-  .crossing-card .sec-h:first-of-type{margin-top:0;}
-  .crossing-card .sec-b{color:var(--ink);}
-  .crossing-actions{display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;}
-  .crossing-actions button{
-    font:inherit; font-size:14px; padding:8px 14px; border-radius:8px; cursor:pointer;
-    border:1px solid var(--paper-line); background:#fff; color:var(--ink);
-  }
+
+  /* the crossing — arrives like a precious artifact */
+  @keyframes arrive{ 0%{opacity:0; transform:translateY(18px) scale(.984)} 100%{opacity:1; transform:none} }
+  .crossing-card{align-self:stretch; position:relative; background:var(--paper);
+    border:1px solid var(--paper-line); border-radius:13px; padding:32px 30px 24px; margin:2px 0;
+    box-shadow:0 12px 36px rgba(43,52,64,.12), inset 0 1px 0 rgba(255,255,255,.7);
+    animation:arrive 1.15s cubic-bezier(.22,.61,.36,1) both;}
+  .crossing-card::before{content:""; position:absolute; top:-11px; left:50%; transform:translateX(-50%);
+    width:22px; height:22px; border-radius:50%; background:var(--paper); border:1.5px solid var(--sage); box-shadow:0 0 0 5px var(--paper);}
+  .crossing-card::after{content:""; position:absolute; top:-4px; left:50%; transform:translateX(-50%);
+    width:6px; height:6px; border-radius:50%; background:var(--sage);}
+  .crossing-card .eyebrow{text-align:center; font-size:12px; letter-spacing:1.4px; text-transform:uppercase;
+    color:var(--sage-deep); font-weight:600; padding-bottom:16px; border-bottom:1px solid var(--paper-line);}
+  .crossing-card .sec-h{font-size:11.5px; letter-spacing:.7px; text-transform:uppercase; color:var(--sage-deep); font-weight:700; margin:20px 0 5px;}
+  .crossing-card .sec-h:first-of-type{margin-top:18px;}
+  .crossing-card .sec-b{font-family:var(--serif); font-size:18px; line-height:1.58; color:var(--ink); white-space:pre-wrap; word-wrap:break-word;}
+  .crossing-actions{display:flex; gap:10px; margin-top:24px; padding-top:18px; border-top:1px solid var(--paper-line); flex-wrap:wrap;}
+  .crossing-actions button{font:14px/1 var(--sans); padding:9px 16px; border-radius:9px; cursor:pointer;
+    border:1px solid var(--paper-line); background:#fff; color:var(--ink); transition:border-color .2s, color .2s;}
   .crossing-actions button:hover{border-color:var(--sage); color:var(--sage-deep);}
 
-  /* composer */
-  .composer{position:sticky; bottom:0; padding:12px 16px 8px;
-    background:linear-gradient(180deg,rgba(246,243,236,0) 0%,var(--dawn) 32%);}
-  .composer-inner{display:flex; gap:9px; align-items:flex-end;
-    background:#fff; border:1px solid var(--line); border-radius:16px; padding:8px 8px 8px 14px;
-    box-shadow:0 1px 4px rgba(43,52,64,.05);}
-  textarea{flex:1; border:0; outline:0; resize:none; font:inherit; color:var(--ink);
-    max-height:160px; line-height:1.5; background:transparent; padding:5px 0;}
-  textarea::placeholder{color:#9aa4ad;}
-  .send{flex:0 0 auto; width:40px; height:40px; border:0; border-radius:11px; cursor:pointer;
-    background:var(--sage); color:#fff; font-size:18px; display:flex; align-items:center; justify-content:center;}
+  /* composer — writing on warm paper, not an app field */
+  .composer{position:sticky; bottom:0; padding:16px 0 10px;
+    background:linear-gradient(180deg,rgba(248,241,230,0) 0%,var(--warm-bot) 40%);}
+  .field{display:flex; align-items:center; gap:10px; background:rgba(255,253,249,.85);
+    border:1px solid var(--line); border-radius:19px; padding:14px 14px 14px 21px;
+    box-shadow:0 2px 16px rgba(43,52,64,.05); backdrop-filter:blur(5px); transition:border-color .2s, box-shadow .2s;}
+  .field:focus-within{border-color:var(--sage); box-shadow:0 2px 18px rgba(95,138,125,.16);}
+  .field textarea{flex:1; border:0; outline:0; resize:none; background:transparent;
+    font:16.5px/1.5 var(--sans); color:var(--ink); max-height:168px; padding:0;}
+  .field textarea::placeholder{color:#a39c8f;}
+  .send{width:38px; height:38px; border:0; border-radius:50%; background:var(--sage); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:16px; line-height:1; cursor:pointer; flex:0 0 auto;
+    box-shadow:0 2px 8px rgba(95,138,125,.32); transition:background .2s;}
   .send:hover{background:var(--sage-deep);}
-  .send:disabled{opacity:.45; cursor:default;}
-  .safety{text-align:center; font-size:12.5px; color:var(--muted); padding:4px 16px 16px;}
-  .safety a{color:var(--sage-deep); text-decoration:none; border-bottom:1px solid rgba(95,138,125,.35);}
+  .send:disabled{opacity:.42; cursor:default;}
+
+  .safety{text-align:center; font-size:12.5px; color:var(--muted); padding:13px 0 28px;}
+  .safety a{color:var(--sage-deep); text-decoration:none; border-bottom:1px solid rgba(95,138,125,.3);}
   .safety a:hover{color:var(--sage);}
+
+  @media (prefers-reduced-motion: reduce){
+    .cm, .you, .thinking, .crossing-card{ animation:none; }
+    .thinking .pulse{ animation:none; opacity:.58; }
+  }
 
   @media print{
     body *{visibility:hidden;}
     .crossing-card, .crossing-card *{visibility:visible;}
-    .crossing-actions{display:none;}
-    .crossing-card{position:absolute; left:0; top:0; width:100%; border:0; box-shadow:none;}
+    .crossing-card::before, .crossing-card::after, .crossing-actions{display:none;}
+    .crossing-card{position:absolute; left:0; top:0; width:100%; border:0; box-shadow:none; animation:none;}
   }
 </style>
 </head>
@@ -85,10 +121,10 @@
     <div class="tagline">Find what's really going on.</div>
   </header>
 
-  <main class="stream" id="stream" role="log" aria-live="polite" aria-label="Conversation"></main>
+  <main class="thread" id="stream" role="log" aria-live="polite" aria-label="Conversation"></main>
 
   <div class="composer">
-    <div class="composer-inner">
+    <div class="field">
       <textarea id="input" rows="1" placeholder="What's weighing on you?" aria-label="What's weighing on you?"></textarea>
       <button class="send" id="send" aria-label="Send">↑</button>
     </div>
@@ -114,23 +150,38 @@
     "and to leave with one clear next step. No account, nothing saved. Take your time.\n\nWhat's on your mind?";
 
   function el(tag, cls, text){ const e=document.createElement(tag); if(cls)e.className=cls; if(text!=null)e.textContent=text; return e; }
+  function vhLabel(text){ return el('span','vh', text); }
   function scroll(){ stream.scrollTop = stream.scrollHeight; window.scrollTo(0, document.body.scrollHeight); }
 
+  // render companion text as paragraphs (blank line = new paragraph) — the letter rhythm
+  function setBody(container, text){
+    container.textContent = '';
+    const t = text || '';
+    for(const para of t.split(/\n{2,}/)){
+      if(para.trim() === '') continue;
+      container.appendChild(el('p', null, para));
+    }
+  }
+
   function addUser(text){
-    const m = el('div','msg user', text); stream.appendChild(m); scroll();
+    const m = el('div','you');
+    m.appendChild(vhLabel('You said: '));
+    m.appendChild(document.createTextNode(text));
+    stream.appendChild(m); scroll();
   }
   function addCM(text){
-    const m = el('div','msg cm');
-    m.appendChild(el('span','who','ClearMind'));
-    const body = el('span','body', text||''); m.appendChild(body);
+    const m = el('div','cm');
+    m.appendChild(vhLabel('ClearMind: '));
+    const body = el('div','cm-body'); m.appendChild(body);
+    setBody(body, text||'');
     stream.appendChild(m); scroll();
     return body;
   }
-  function addDots(){
-    const m = el('div','msg cm');
-    m.appendChild(el('span','who','ClearMind'));
-    const d = el('div','dots'); d.appendChild(el('span')); d.appendChild(el('span')); d.appendChild(el('span'));
-    m.appendChild(d); stream.appendChild(m); scroll();
+  function addThinking(){
+    const m = el('div','thinking');
+    m.appendChild(vhLabel('ClearMind is thinking'));
+    m.appendChild(el('span','pulse'));
+    stream.appendChild(m); scroll();
     return m;
   }
 
@@ -171,7 +222,7 @@
     addUser(text);
     messages.push({role:'user', content:text});
 
-    const dotsEl = addDots();
+    const thinkEl = addThinking();
     let body = null, full = '';
 
     try{
@@ -182,7 +233,7 @@
       const ctype = res.headers.get('content-type') || '';
       if(!ctype.includes('text/event-stream')){
         const data = await res.json().catch(()=>({message:"Something went wrong. Try again in a moment."}));
-        dotsEl.remove(); addCM(data.message || "Something went wrong. Try again in a moment.");
+        thinkEl.remove(); addCM(data.message || "Something went wrong. Try again in a moment.");
         busy=false; send.disabled=false; return;
       }
       const reader = res.body.getReader();
@@ -198,36 +249,36 @@
           if(!p || p==='[DONE]') continue;
           let evt; try{ evt=JSON.parse(p); }catch{ continue; }
           if(evt.type==='content_block_delta' && evt.delta?.type==='text_delta'){
-            if(!body){ dotsEl.remove(); body = addCM(''); }
+            if(!body){ thinkEl.remove(); body = addCM(''); }
             full += evt.delta.text;
-            body.textContent = visiblePart(full);
+            setBody(body, visiblePart(full));
             scroll();
           }
         }
       }
     }catch(_){
-      dotsEl.remove(); addCM("I lost the thread for a second there — try once more.");
+      thinkEl.remove(); addCM("I lost the thread for a second there — try once more.");
       busy=false; send.disabled=false; return;
     }
 
-    if(!body){ dotsEl.remove(); body = addCM(visiblePart(full) || "…"); }
+    if(!body){ thinkEl.remove(); body = addCM(visiblePart(full) || "…"); }
 
     // finalize: lift out the crossing block, render the card, keep any warm close
     const m = full.match(/```crossing\s*\n([\s\S]*?)```/);
     if(m){
-      body.textContent = full.slice(0, m.index).trimEnd();
+      setBody(body, full.slice(0, m.index).trimEnd());
       renderCrossingCard(m[1].trim());
       const after = full.slice(m.index + m[0].length).trim();
       if(after) addCM(after);
     } else {
-      body.textContent = full;
+      setBody(body, full);
     }
     messages.push({role:'assistant', content:full});
     busy=false; send.disabled=false; input.focus(); scroll();
   }
 
   // input behavior
-  input.addEventListener('input', () => { input.style.height='auto'; input.style.height=Math.min(input.scrollHeight,160)+'px'; });
+  input.addEventListener('input', () => { input.style.height='auto'; input.style.height=Math.min(input.scrollHeight,168)+'px'; });
   input.addEventListener('keydown', (e) => { if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); turn(); } });
   send.addEventListener('click', turn);
 
